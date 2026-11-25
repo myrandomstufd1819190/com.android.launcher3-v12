@@ -13,8 +13,8 @@ jobs:
           mkdir -p aosp/packages/apps/Launcher3
           mkdir -p aosp/frameworks/libs/systemui
           
-          git clone --depth=1 -b android12-release https://googlesource.com aosp/packages/apps/Launcher3
-          git clone --depth=1 -b android12-release https://googlesource.com aosp/frameworks/libs/systemui
+          git clone --depth=1 -b android12-release https://android.googlesource.com aosp/packages/apps/Launcher3
+          git clone --depth=1 -b android12-release https://android.googlesource.com aosp/frameworks/libs/systemui
 
       - name: Set up JDK 11
         uses: actions/setup-java@v4
