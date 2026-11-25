@@ -1,0 +1,39 @@
+name: Build Pure AOSP Launcher3
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Pure AOSP Launcher3 & Companion Libs
+        run: |
+          mkdir -p aosp/packages/apps/Launcher3
+          mkdir -p aosp/frameworks/libs/systemui
+          
+          git clone --depth=1 -b android12-release https://googlesource.com aosp/packages/apps/Launcher3
+          git clone --depth=1 -b android12-release https://googlesource.com aosp/frameworks/libs/systemui
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '7.4.2'
+
+      - name: Build Pure AOSP Launcher3 APK
+        working-directory: aosp/packages/apps/Launcher3
+        run: gradle assembleAospWithoutQuickstepDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pure-AOSP-Launcher3-12
+          path: aosp/packages/apps/Launcher3/build/outputs/apk/**/*.apk
+          
